@@ -231,26 +231,33 @@ inline static void msg_queue_start(MessageQueue *q)
     SDL_UnlockMutex(q->mutex);
 }
 
-/* return < 0 if aborted, 0 if no msg and > 0 if msg.  */
+/**
+ * return < 0 if aborted, 0 if no msg and > 0 if msg.
+ *
+ * @param q 消息队列
+ * @param msg 存放放回的消息
+ * @param block 如果消息队列为空，是否等待。 1为等待，0为不等待
+ * @return  >0 表示获得消息成功，否则失败。
+ */
 inline static int msg_queue_get(MessageQueue *q, AVMessage *msg, int block)
 {
     AVMessage *msg1;
     int ret;
 
-    SDL_LockMutex(q->mutex);
+    SDL_LockMutex(q->mutex);//获取锁
 
     for (;;) {
-        if (q->abort_request) {
+        if (q->abort_request) {//是否退出
             ret = -1;
             break;
         }
 
-        msg1 = q->first_msg;
-        if (msg1) {
-            q->first_msg = msg1->next;
+        msg1 = q->first_msg;//链表头结点
+        if (msg1) {// 如果存在
+            q->first_msg = msg1->next;// 将链表头指向下一个
             if (!q->first_msg)
                 q->last_msg = NULL;
-            q->nb_messages--;
+            q->nb_messages--;//节点数减一
             *msg = *msg1;
             msg1->obj = NULL;
 #ifdef FFP_MERGE
@@ -268,7 +275,7 @@ inline static int msg_queue_get(MessageQueue *q, AVMessage *msg, int block)
             SDL_CondWait(q->cond, q->mutex);
         }
     }
-    SDL_UnlockMutex(q->mutex);
+    SDL_UnlockMutex(q->mutex);//释放锁
     return ret;
 }
 

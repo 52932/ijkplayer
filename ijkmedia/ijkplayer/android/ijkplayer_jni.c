@@ -750,10 +750,12 @@ static void
 IjkMediaPlayer_native_setup(JNIEnv *env, jobject thiz, jobject weak_this)
 {
     MPTRACE("%s\n", __func__);
+    // 初始化IjkMediaPlayer ，启动native 层 handler（message_loop）
     IjkMediaPlayer *mp = ijkmp_android_create(message_loop);
     JNI_CHECK_GOTO(mp, env, "java/lang/OutOfMemoryError", "mpjni: native_setup: ijkmp_create() failed", LABEL_RETURN);
-
+    // 将native 创建的 IjkMediaPlayer 地址赋值给java层的IjkMediaPlayer#mNativeMediaPlayer
     jni_set_media_player(env, thiz, mp);
+    //将java层对象的weak_this 保存到native层
     ijkmp_set_weak_thiz(mp, (*env)->NewGlobalRef(env, weak_this));
     ijkmp_set_inject_opaque(mp, ijkmp_get_weak_thiz(mp));
     ijkmp_set_ijkio_inject_opaque(mp, ijkmp_get_weak_thiz(mp));
@@ -901,13 +903,14 @@ static void message_loop_n(JNIEnv *env, IjkMediaPlayer *mp)
     while (1) {
         AVMessage msg;
 
-        int retval = ijkmp_get_msg(mp, &msg, 1);
+        int retval = ijkmp_get_msg(mp, &msg, 1);//>0有消息，=0没消息，<0退出
         if (retval < 0)
             break;
 
         // block-get should never return 0
         assert(retval > 0);
 
+        //将消息分发给java层 postEventFromNative
         switch (msg.what) {
         case FFP_MSG_FLUSH:
             MPTRACE("FFP_MSG_FLUSH:\n");
@@ -1035,11 +1038,12 @@ static int message_loop(void *arg)
     MPTRACE("%s\n", __func__);
 
     JNIEnv *env = NULL;
+    //获取当前线程的私有JNIEnv对象
     if (JNI_OK != SDL_JNI_SetupThreadEnv(&env)) {
         ALOGE("%s: SetupThreadEnv failed\n", __func__);
         return -1;
     }
-
+    // mp ：netive 创建的IjkMediaPlayer
     IjkMediaPlayer *mp = (IjkMediaPlayer*) arg;
     JNI_CHECK_GOTO(mp, env, NULL, "mpjni: native_message_loop: null mp", LABEL_RETURN);
 
@@ -1186,21 +1190,24 @@ JNIEXPORT jint JNI_OnLoad(JavaVM *vm, void *reserved)
 {
     JNIEnv* env = NULL;
 
-    g_jvm = vm;
+    g_jvm = vm;//将JVM保留至全局
     if ((*vm)->GetEnv(vm, (void**) &env, JNI_VERSION_1_4) != JNI_OK) {
         return -1;
     }
     assert(env != NULL);
-
+    // 初始化一个互斥锁
     pthread_mutex_init(&g_clazz.mutex, NULL );
 
-    // FindClass returns LocalReference
+    // 创建一个IJKMediaPlayer.java类，全局引用，存放在g_clazz.clazz中
     IJK_FIND_JAVA_CLASS(env, g_clazz.clazz, JNI_CLASS_IJKPLAYER);
+    //动态注册
     (*env)->RegisterNatives(env, g_clazz.clazz, g_methods, NELEM(g_methods) );
 
+    //初始化播放器
     ijkmp_global_init();
+    //设置全局的回调函数
     ijkmp_global_set_inject_callback(inject_callback);
-
+    //给ffmpeg api 添加一个java方法到c的对应表
     FFmpegApi_global_init(env);
 
     return JNI_VERSION_1_4;

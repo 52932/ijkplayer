@@ -45,6 +45,13 @@ static void *SDL_RunThread(void *data)
     return NULL;
 }
 
+/*
+ *
+ * @thread 封装的线程信息
+ * @fn 线程运行的方法
+ * @data 运行方法的传入参数
+ * @name 线程名字
+ */
 SDL_Thread *SDL_CreateThreadEx(SDL_Thread *thread, int (*fn)(void *), void *data, const char *name)
 {
     thread->func = fn;

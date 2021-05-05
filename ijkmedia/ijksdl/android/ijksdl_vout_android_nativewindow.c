@@ -143,7 +143,7 @@ static int func_display_overlay_l(SDL_Vout *vout, SDL_VoutOverlay *overlay)
 {
     SDL_Vout_Opaque *opaque = vout->opaque;
     ANativeWindow *native_window = opaque->native_window;
-
+    // 是否有展示窗口
     if (!native_window) {
         if (!opaque->null_native_window_warned) {
             opaque->null_native_window_warned = 1;
@@ -154,6 +154,7 @@ static int func_display_overlay_l(SDL_Vout *vout, SDL_VoutOverlay *overlay)
         opaque->null_native_window_warned = 1;
     }
 
+    // 判断展示帧是否为空
     if (!overlay) {
         ALOGE("func_display_overlay_l: NULL overlay");
         return -1;
@@ -163,11 +164,18 @@ static int func_display_overlay_l(SDL_Vout *vout, SDL_VoutOverlay *overlay)
         ALOGE("func_display_overlay_l: invalid overlay dimensions(%d, %d)", overlay->w, overlay->h);
         return -1;
     }
-
+    // 通过播放格式，调用不同的渲染方式展示，如果用户没有设置，默认为overlay->format=SDL_FCC_RV32
     switch(overlay->format) {
     case SDL_FCC__AMC: {
+        // 这个格式是使用 Android 的 MeadiaCodec 处理视频数据，才会有的。
+        // 最终调用了 MediaCodec.java 中的 releaseOutputBuffer 方法,播放并释放缓存区
+        // 该模式会在native层构建一个Android自带的MediaCodec对象。然后将ffmpeg中获得的AvPacket数据放入MediaCodec中去解码，如果解码成功，存在一帧放入缓存队列中
+        // 其中解码的实现在ffpipenode_android_mediacodec_vdec.func_run_sync函数中
         // only ANativeWindow support
         IJK_EGL_terminate(opaque->egl);
+        //该模式调用了SDL_VoutOverlayAMediaCodec_releaseFrame_l，实际调用了MediaCodec.releaseOutputBuffer.
+        // 又因为我们给MediaCodec设置了surface。所以releaseOutputBuffer函数会将解码成功的数据渲染到surface中，
+        //并释放MediaCodec中的缓存区
         return SDL_VoutOverlayAMediaCodec_releaseFrame_l(overlay, NULL, true);
     }
     case SDL_FCC_RV24:
@@ -180,8 +188,9 @@ static int func_display_overlay_l(SDL_Vout *vout, SDL_VoutOverlay *overlay)
     }
     case SDL_FCC_YV12:
     case SDL_FCC_RV16:
-    case SDL_FCC_RV32: {
+    case SDL_FCC_RV32: { // ijk默认的视频渲染方式：ANativeWindow 其具体的实现在android_nativewindow.SDL_Android_NativeWindow_display_l函数中。
         // both GLES & ANativeWindow support
+        // 是否开启gles渲染方式,默认关闭。所以不会使用gles
         if (vout->overlay_format == SDL_FCC__GLES2 && opaque->egl)
             return IJK_EGL_display(opaque->egl, native_window, overlay);
         break;
@@ -190,6 +199,7 @@ static int func_display_overlay_l(SDL_Vout *vout, SDL_VoutOverlay *overlay)
 
     // fallback to ANativeWindow
     IJK_EGL_terminate(opaque->egl);
+    // 如果前面都没处理，调用该方法。默认进入
     return SDL_Android_NativeWindow_display_l(native_window, overlay); 
 }
 

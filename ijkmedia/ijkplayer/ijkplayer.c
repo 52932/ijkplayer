@@ -399,17 +399,18 @@ static int ijkmp_prepare_async_l(IjkMediaPlayer *mp)
     MPST_RET_IF_EQ(mp->mp_state, MP_STATE_END);
 
     assert(mp->data_source);
-
+    //1.向消息链表发送一个FFP_MSG_PLAYBACK_STATE_CHANGED消息，改变IjkMediaPlayer的状态为MP_STATE_ASYNC_PREPARING，向native层发送一次测试消息
     ijkmp_change_state_l(mp, MP_STATE_ASYNC_PREPARING);
-
+    //2.向消息链表发送一个FFP_MSG_FLUSH消息，表示向向Java层发送一次测试通信。测试java层消息是否通
     msg_queue_start(&mp->ffplayer->msg_queue);
 
     // released in msg_loop
     ijkmp_inc_ref(mp);
+    // 3.创建一个线程用来运行消息队列 ijkmp_msg_loop
     mp->msg_thread = SDL_CreateThreadEx(&mp->_msg_thread, ijkmp_msg_loop, mp, "ff_msg_loop");
     // msg_thread is detached inside msg_loop
     // TODO: 9 release weak_thiz if pthread_create() failed;
-
+    // 4.设置请求uri、创建和初始化音轨、打开数据流，启动视频刷新线程和读取数据线程
     int retval = ffp_prepare_async_l(mp->ffplayer, mp->data_source);
     if (retval < 0) {
         ijkmp_change_state_l(mp, MP_STATE_ERROR);

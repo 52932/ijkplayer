@@ -102,22 +102,33 @@ static int android_render_rgb_on_rgb(ANativeWindow_Buffer *out_buffer, const SDL
     assert(overlay->format == SDL_FCC_RV16);
     assert(overlay->planes == 1);
 
+    // 展示的最小高度
     int min_height = IJKMIN(out_buffer->height, overlay->h);
+    // 获得窗口缓冲区一行在内存中接受的像素个数
     int dst_stride = out_buffer->stride;
+    // 获得一行被展示的数据的字节个数
     int src_line_size = overlay->pitches[0];
+    // 计算窗口缓冲区展示一行数据的字节个数。bpp为一个像素字节数，如果是RGB32表示每个像素用32比特位表示，所以计算字节总数时需要乘32
     int dst_line_size = dst_stride * bpp / 8;
 
+    // 指针指向窗口缓冲区地址
     uint8_t *dst_pixels = out_buffer->bits;
+    // 存储一帧像素的首地址
     const uint8_t *src_pixels = overlay->pixels[0];
 
+    // 如果展示数据大小等于窗口需要大小，则直接拷贝到窗口缓存区中
     if (dst_line_size == src_line_size) {
         int plane_size = src_line_size * min_height;
         // ALOGE("android_render_rgb_on_rgb (pix-match) %p %p %d", dst_pixels, src_pixels, plane_size);
+        // 直接拷贝到窗口缓存区中
         memcpy(dst_pixels, src_pixels, plane_size);
     } else {
         // TODO: 9 padding
-        int bytewidth = IJKMIN(dst_line_size, src_line_size);
+        int bytewidth = IJKMIN(dst_line_size, src_line_size);// 获得一个最小的宽度
 
+        // 将展示数据拷贝到窗口缓冲区，
+        // 如果展示数据>窗口缓冲区的大小，就不完全展示图片
+        // 否则就窗口就缩放
         // ALOGE("android_render_rgb_on_rgb (pix-mismatch) %p %d %p %d %d %d", dst_pixels, dst_line_size, src_pixels, src_line_size, bytewidth, min_height);
         av_image_copy_plane(dst_pixels, dst_line_size, src_pixels, src_line_size, bytewidth, min_height);
     }
@@ -188,8 +199,15 @@ static AndroidHalFourccDescriptor g_hal_fcc_map[] = {
     { SDL_FCC_RV32, "RV32", HAL_PIXEL_FORMAT_RGBX_8888, android_render_on_rgb8888 },
 };
 
+/*
+ * 获得播放格式对应的操作结构体
+ *
+ * 由于系统会支持播放很多视频格式，而不同格式的视频数据会做一些相同操作，如都需要向窗口缓存区发送一帧数据，
+ * 所以不同视频格式的数据发送的方式会有不同。所以系统自定义了一些结构体，捆绑了格式与对应的操作。
+ */
 AndroidHalFourccDescriptor *native_window_get_desc(int fourcc_or_hal)
 {
+    // // 通过播放格式遍历寻找对应的结构体
     for (int i = 0; i < NELEM(g_hal_fcc_map); ++i) {
         AndroidHalFourccDescriptor *desc = &g_hal_fcc_map[i];
         if (desc->fcc_or_hal == fourcc_or_hal)
@@ -198,7 +216,7 @@ AndroidHalFourccDescriptor *native_window_get_desc(int fourcc_or_hal)
 
     return NULL;
 }
-
+// TODO ijk默认渲染模式
 int SDL_Android_NativeWindow_display_l(ANativeWindow *native_window, SDL_VoutOverlay *overlay)
 {
     int retval;
@@ -215,24 +233,30 @@ int SDL_Android_NativeWindow_display_l(ANativeWindow *native_window, SDL_VoutOve
         ALOGE("SDL_Android_NativeWindow_display_l: invalid overlay dimensions(%d, %d)", overlay->w, overlay->h);
         return -1;
     }
-
+    // 获取展示的屏幕宽高
     int curr_w = ANativeWindow_getWidth(native_window);
     int curr_h = ANativeWindow_getHeight(native_window);
+    // 获得展示窗口需要的视频格式（图片）
     int curr_format = ANativeWindow_getFormat(native_window);
     int buff_w = IJKALIGN(overlay->w, 2);
     int buff_h = IJKALIGN(overlay->h, 2);
 
+    // 获得格式对应的结构体
+    // overlay->format=842225234 对应的AndroidHalFourccDescriptor名字---RV32
     AndroidHalFourccDescriptor *overlayDesc = native_window_get_desc(overlay->format);
     if (!overlayDesc) {
         ALOGE("SDL_Android_NativeWindow_display_l: unknown overlay format: %d", overlay->format);
         return -1;
     }
+    // curr_format=2 对应的AndroidHalFourccDescriptor名字---HAL_RGBX_8888
+    AndroidHalFourccDescriptor *voutDesc = native_window_get_desc(curr_format); // 获得播放格式对应的操作结构体。
 
-    AndroidHalFourccDescriptor *voutDesc = native_window_get_desc(curr_format);
+    // 如果播放格式与展示窗口需要格式不同，一般设置一次
     if (!voutDesc || voutDesc->hal_format != overlayDesc->hal_format) {
         ALOGD("ANativeWindow_setBuffersGeometry: w=%d, h=%d, f=%.4s(0x%x) => w=%d, h=%d, f=%.4s(0x%x)",
             curr_w, curr_h, (char*) &curr_format, curr_format,
             buff_w, buff_h, (char*) &overlay->format, overlay->format);
+        // 设置窗口缓冲区的格式和大小------LayerBuffer
         retval = ANativeWindow_setBuffersGeometry(native_window, buff_w, buff_h, overlayDesc->hal_format);
         if (retval < 0) {
             ALOGE("SDL_Android_NativeWindow_display_l: ANativeWindow_setBuffersGeometry: failed %d", retval);
@@ -246,29 +270,35 @@ int SDL_Android_NativeWindow_display_l(ANativeWindow *native_window, SDL_VoutOve
     }
 
     ANativeWindow_Buffer out_buffer;
+    // 锁定窗口的下一个绘图面（即缓存区）以便写入
+    // 通过向out_buffer赋值，作为窗口的展示数据
     retval = ANativeWindow_lock(native_window, &out_buffer, NULL);
     if (retval < 0) {
         ALOGE("SDL_Android_NativeWindow_display_l: ANativeWindow_lock: failed %d", retval);
         return retval;
     }
 
+    // 如果窗口缓存区宽高与展示数据不匹配，说明视频宽高发生了改变，重新窗口属性，丢弃帧或者图片
     if (out_buffer.width != buff_w || out_buffer.height != buff_h) {
         ALOGE("unexpected native window buffer (%p)(w:%d, h:%d, fmt:'%.4s'0x%x), expecting (w:%d, h:%d, fmt:'%.4s'0x%x)",
             native_window,
             out_buffer.width, out_buffer.height, (char*)&out_buffer.format, out_buffer.format,
             buff_w, buff_h, (char*)&overlay->format, overlay->format);
         // TODO: 8 set all black
-        ANativeWindow_unlockAndPost(native_window);
+        ANativeWindow_unlockAndPost(native_window);// 在锁定后解锁窗口的绘制面
+        // 更改窗口缓冲区的格式和大小------LayerBuffer
         ANativeWindow_setBuffersGeometry(native_window, buff_w, buff_h, overlayDesc->hal_format);
         return -1;
     }
-
+    // TODO 将视频帧发送到窗口缓存区中
+    // 最终调用了 android/ijkplayer/ijkplayer-x86/src/main/jni/ijkmedia/ijksdl/android/android_nativewindow.c
+    // android_render_rgb_on_rgb 函数中
     int render_ret = voutDesc->render(&out_buffer, overlay);
     if (render_ret < 0) {
         // TODO: 8 set all black
         // return after unlock image;
     }
-
+    // 解锁窗口的绘制面，将新的缓冲区发送到显示器
     retval = ANativeWindow_unlockAndPost(native_window);
     if (retval < 0) {
         ALOGE("SDL_Android_NativeWindow_display_l: ANativeWindow_unlockAndPost: failed %d", retval);

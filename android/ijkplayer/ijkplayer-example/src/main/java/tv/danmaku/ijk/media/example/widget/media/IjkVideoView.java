@@ -343,11 +343,14 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
             } else {
                 mMediaPlayer.setDataSource(mUri.toString());
             }
+            // 1. 将mSurfaceHolder传入mMediaPlayer，方便mMediaPlayer开关屏幕
+            // 2. 将mSurfaceHolder.getSurface窗口传入native 层，让native层向窗口填充数据;
             bindSurfaceHolder(mMediaPlayer, mSurfaceHolder);
             mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
             mMediaPlayer.setScreenOnWhilePlaying(true);
+            //记录preapare前的时间（后面onPrepared回调里面会根据这个事件算出parepare花了多长时间）
             mPrepareStartTime = System.currentTimeMillis();
-            mMediaPlayer.prepareAsync();
+            mMediaPlayer.prepareAsync();//异步prepare
             if (mHudViewHolder != null)
                 mHudViewHolder.setMediaPlayer(mMediaPlayer);
 
