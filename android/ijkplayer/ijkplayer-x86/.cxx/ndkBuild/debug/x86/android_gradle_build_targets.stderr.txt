@@ -17,8 +17,3 @@
                  change_ret = avcodec_decode_video2(new_avctx, frame, &got_picture, avpkt);
                  ^
 cc1plus: warning: command line option '-std=c99' is valid for C/ObjC but not for C++
-/Users/apple/work/52ijkplayer/android/ijkplayer/ijkplayer-x86/src/main/jni/ijkmedia/ijkplayer/ff_ffplay.c:1066: error: undefined reference to 'ijk_soundtouch_destroy'
-/Users/apple/work/52ijkplayer/android/ijkplayer/ijkplayer-x86/src/main/jni/ijkmedia/ijkplayer/ff_ffplay.c:2687: error: undefined reference to 'ijk_soundtouch_translate'
-/Users/apple/work/52ijkplayer/android/ijkplayer/ijkplayer-x86/src/main/jni/ijkmedia/ijkplayer/ff_ffplay.c:3823: error: undefined reference to 'ijk_soundtouch_create'
-collect2: error: ld returned 1 exit status
-make: *** [/Users/apple/work/52ijkplayer/android/ijkplayer/ijkplayer-x86/build/intermediates/ndkBuild/debug/obj/local/x86/libijkplayer.so] Error 1

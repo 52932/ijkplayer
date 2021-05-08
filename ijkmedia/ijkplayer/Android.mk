@@ -81,7 +81,7 @@ LOCAL_SRC_FILES += ijkavutil/ijkstl.cpp
 # LOCAL_STATIC_LIBRARIES := android-ndk-profiler ijksoundtouch
 # 将ffmpeg 改为静态链接
 LOCAL_SHARED_LIBRARIES := ijksdl
-LOCAL_STATIC_LIBRARIES := avformat avcodec swscale swresample avfilter avutil android-ndk-profiler
+LOCAL_STATIC_LIBRARIES := ijksoundtouch avformat avcodec swscale swresample avfilter avutil android-ndk-profiler
 
 
 LOCAL_MODULE := ijkplayer
