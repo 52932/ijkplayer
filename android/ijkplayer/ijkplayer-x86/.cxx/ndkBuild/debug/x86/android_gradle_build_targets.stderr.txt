@@ -1,0 +1,24 @@
+/Users/apple/work/52ijkplayer/android/ijkplayer/ijkplayer-x86/src/main/jni/ijkmedia/ijkplayer/ff_ffplay.c: In function 'convert_image':
+/Users/apple/work/52ijkplayer/android/ijkplayer/ijkplayer-x86/src/main/jni/ijkmedia/ijkplayer/ff_ffplay.c:527:5: warning: 'avcodec_encode_video2' is deprecated (declared at /Users/apple/work/52ijkplayer/android/contrib/build/ffmpeg-x86/output/include/libavcodec/avcodec.h:5509) [-Wdeprecated-declarations]
+     ret = avcodec_encode_video2(img_info->frame_img_codec_ctx, &avpkt, dst_frame, &got_packet);
+     ^
+/Users/apple/work/52ijkplayer/android/ijkplayer/ijkplayer-x86/src/main/jni/ijkmedia/ijkplayer/android/pipeline/ffpipenode_android_mediacodec_vdec.c: In function 'feed_input_buffer2':
+/Users/apple/work/52ijkplayer/android/ijkplayer/ijkplayer-x86/src/main/jni/ijkmedia/ijkplayer/android/pipeline/ffpipenode_android_mediacodec_vdec.c:509:9: warning: 'av_packet_split_side_data' is deprecated (declared at /Users/apple/work/52ijkplayer/android/contrib/build/ffmpeg-x86/output/include/libavcodec/avcodec.h:4707) [-Wdeprecated-declarations]
+         av_packet_split_side_data(&pkt);
+         ^
+/Users/apple/work/52ijkplayer/android/ijkplayer/ijkplayer-x86/src/main/jni/ijkmedia/ijkplayer/android/pipeline/ffpipenode_android_mediacodec_vdec.c:550:17: warning: 'avcodec_decode_video2' is deprecated (declared at /Users/apple/work/52ijkplayer/android/contrib/build/ffmpeg-x86/output/include/libavcodec/avcodec.h:4994) [-Wdeprecated-declarations]
+                 change_ret = avcodec_decode_video2(new_avctx, frame, &got_picture, avpkt);
+                 ^
+/Users/apple/work/52ijkplayer/android/ijkplayer/ijkplayer-x86/src/main/jni/ijkmedia/ijkplayer/android/pipeline/ffpipenode_android_mediacodec_vdec.c: In function 'feed_input_buffer':
+/Users/apple/work/52ijkplayer/android/ijkplayer/ijkplayer-x86/src/main/jni/ijkmedia/ijkplayer/android/pipeline/ffpipenode_android_mediacodec_vdec.c:757:9: warning: 'av_packet_split_side_data' is deprecated (declared at /Users/apple/work/52ijkplayer/android/contrib/build/ffmpeg-x86/output/include/libavcodec/avcodec.h:4707) [-Wdeprecated-declarations]
+         av_packet_split_side_data(&pkt);
+         ^
+/Users/apple/work/52ijkplayer/android/ijkplayer/ijkplayer-x86/src/main/jni/ijkmedia/ijkplayer/android/pipeline/ffpipenode_android_mediacodec_vdec.c:797:17: warning: 'avcodec_decode_video2' is deprecated (declared at /Users/apple/work/52ijkplayer/android/contrib/build/ffmpeg-x86/output/include/libavcodec/avcodec.h:4994) [-Wdeprecated-declarations]
+                 change_ret = avcodec_decode_video2(new_avctx, frame, &got_picture, avpkt);
+                 ^
+cc1plus: warning: command line option '-std=c99' is valid for C/ObjC but not for C++
+/Users/apple/work/52ijkplayer/android/ijkplayer/ijkplayer-x86/src/main/jni/ijkmedia/ijkplayer/ff_ffplay.c:1066: error: undefined reference to 'ijk_soundtouch_destroy'
+/Users/apple/work/52ijkplayer/android/ijkplayer/ijkplayer-x86/src/main/jni/ijkmedia/ijkplayer/ff_ffplay.c:2687: error: undefined reference to 'ijk_soundtouch_translate'
+/Users/apple/work/52ijkplayer/android/ijkplayer/ijkplayer-x86/src/main/jni/ijkmedia/ijkplayer/ff_ffplay.c:3823: error: undefined reference to 'ijk_soundtouch_create'
+collect2: error: ld returned 1 exit status
+make: *** [/Users/apple/work/52ijkplayer/android/ijkplayer/ijkplayer-x86/build/intermediates/ndkBuild/debug/obj/local/x86/libijkplayer.so] Error 1

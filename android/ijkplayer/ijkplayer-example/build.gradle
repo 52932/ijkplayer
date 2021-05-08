@@ -16,6 +16,7 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode rootProject.ext.versionCode
         versionName rootProject.ext.versionName
+        // All flavors must now belong to a named flavor dimension. Learn more at https://d.android.com/r/tools/flavorDimensions-missing-error-message.html
         flavorDimensions "800800"
         multiDexEnabled true
 
@@ -24,15 +25,27 @@ android {
         }
 
         externalNativeBuild {
-            cmake {
-                abiFilters 'armeabi-v7a', 'x86', 'arm64-v8a'
+//            cmake {
+//                abiFilters 'armeabi-v7a', 'x86', 'arm64-v8a'
+//            }
+            ndkBuild {
+                arguments "NDK_APPLICATION:=src/main/jni/Application.mk"
+                abiFilters "x86"
             }
         }
     }
     buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+//        release {
+//            minifyEnabled false
+//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+//        }
+        //添加以下内容
+        debug {
+            debuggable true
+            jniDebuggable true
+            ndk {
+                debuggable true
+            }
         }
     }
     productFlavors {
@@ -57,15 +70,15 @@ dependencies {
     implementation project(':ijkplayer-exo')
     implementation 'com.android.support:multidex:1.0.1'
 
-    all32Implementation project(':ijkplayer-armv5')
-    all32Implementation project(':ijkplayer-armv7a')
+//    all32Implementation project(':ijkplayer-armv5')
+//    all32Implementation project(':ijkplayer-armv7a')
     all32Implementation project(':ijkplayer-x86')
 
-    all64Implementation project(':ijkplayer-armv5')
-    all64Implementation project(':ijkplayer-armv7a')
-    all64Implementation project(':ijkplayer-arm64')
+//    all64Implementation project(':ijkplayer-armv5')
+//    all64Implementation project(':ijkplayer-armv7a')
+//    all64Implementation project(':ijkplayer-arm64')
     all64Implementation project(':ijkplayer-x86')
-    all64Implementation project(':ijkplayer-x86_64')
+//    all64Implementation project(':ijkplayer-x86_64')
 
     // compile 'tv.danmaku.ijk.media:ijkplayer-java:0.8.8'
     // compile 'tv.danmaku.ijk.media:ijkplayer-exo:0.8.8'

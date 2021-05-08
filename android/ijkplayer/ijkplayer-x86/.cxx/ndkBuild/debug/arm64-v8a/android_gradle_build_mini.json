@@ -1,0 +1,61 @@
+{
+  "buildFiles": [
+    "/Users/apple/work/52ijkplayer/android/ijkplayer/ijkplayer-x86/src/main/jni/Android.mk",
+    "/Users/apple/work/52ijkplayer/android/ijkplayer/ijkplayer-x86/src/main/jni/Application.mk"
+  ],
+  "cleanCommands": [
+    "/Users/apple/config/android-ndk-r12b/ndk-build NDK_PROJECT_PATH\u003dnull APP_BUILD_SCRIPT\u003d/Users/apple/work/52ijkplayer/android/ijkplayer/ijkplayer-x86/src/main/jni/Android.mk NDK_APPLICATION_MK\u003d/Users/apple/work/52ijkplayer/android/ijkplayer/ijkplayer-x86/src/main/jni/Application.mk APP_ABI\u003darm64-v8a NDK_ALL_ABIS\u003darm64-v8a NDK_DEBUG\u003d1 APP_PLATFORM\u003dandroid-21 NDK_OUT\u003d/Users/apple/work/52ijkplayer/android/ijkplayer/ijkplayer-x86/build/intermediates/ndkBuild/debug/obj NDK_LIBS_OUT\u003d/Users/apple/work/52ijkplayer/android/ijkplayer/ijkplayer-x86/build/intermediates/ndkBuild/debug/lib clean"
+  ],
+  "buildTargetsCommand": "/Users/apple/config/android-ndk-r12b/ndk-build NDK_PROJECT_PATH\u003dnull APP_BUILD_SCRIPT\u003d/Users/apple/work/52ijkplayer/android/ijkplayer/ijkplayer-x86/src/main/jni/Android.mk NDK_APPLICATION_MK\u003d/Users/apple/work/52ijkplayer/android/ijkplayer/ijkplayer-x86/src/main/jni/Application.mk APP_ABI\u003darm64-v8a NDK_ALL_ABIS\u003darm64-v8a NDK_DEBUG\u003d1 APP_PLATFORM\u003dandroid-21 NDK_OUT\u003d/Users/apple/work/52ijkplayer/android/ijkplayer/ijkplayer-x86/build/intermediates/ndkBuild/debug/obj NDK_LIBS_OUT\u003d/Users/apple/work/52ijkplayer/android/ijkplayer/ijkplayer-x86/build/intermediates/ndkBuild/debug/lib {LIST_OF_TARGETS_TO_BUILD}",
+  "libraries": {
+    "ijkj4a-debug-arm64-v8a": {
+      "artifactName": "ijkj4a",
+      "buildCommand": "/Users/apple/config/android-ndk-r12b/ndk-build NDK_PROJECT_PATH\u003dnull APP_BUILD_SCRIPT\u003d/Users/apple/work/52ijkplayer/android/ijkplayer/ijkplayer-x86/src/main/jni/Android.mk NDK_APPLICATION_MK\u003d/Users/apple/work/52ijkplayer/android/ijkplayer/ijkplayer-x86/src/main/jni/Application.mk APP_ABI\u003darm64-v8a NDK_ALL_ABIS\u003darm64-v8a NDK_DEBUG\u003d1 APP_PLATFORM\u003dandroid-21 NDK_OUT\u003d/Users/apple/work/52ijkplayer/android/ijkplayer/ijkplayer-x86/build/intermediates/ndkBuild/debug/obj NDK_LIBS_OUT\u003d/Users/apple/work/52ijkplayer/android/ijkplayer/ijkplayer-x86/build/intermediates/ndkBuild/debug/lib /Users/apple/work/52ijkplayer/android/ijkplayer/ijkplayer-x86/build/intermediates/ndkBuild/debug/obj/local/arm64-v8a/libijkj4a.a",
+      "abi": "arm64-v8a",
+      "output": "/Users/apple/work/52ijkplayer/android/ijkplayer/ijkplayer-x86/build/intermediates/ndkBuild/debug/obj/local/arm64-v8a/libijkj4a.a",
+      "runtimeFiles": []
+    },
+    "ijksdl-debug-arm64-v8a": {
+      "artifactName": "ijksdl",
+      "buildCommand": "/Users/apple/config/android-ndk-r12b/ndk-build NDK_PROJECT_PATH\u003dnull APP_BUILD_SCRIPT\u003d/Users/apple/work/52ijkplayer/android/ijkplayer/ijkplayer-x86/src/main/jni/Android.mk NDK_APPLICATION_MK\u003d/Users/apple/work/52ijkplayer/android/ijkplayer/ijkplayer-x86/src/main/jni/Application.mk APP_ABI\u003darm64-v8a NDK_ALL_ABIS\u003darm64-v8a NDK_DEBUG\u003d1 APP_PLATFORM\u003dandroid-21 NDK_OUT\u003d/Users/apple/work/52ijkplayer/android/ijkplayer/ijkplayer-x86/build/intermediates/ndkBuild/debug/obj NDK_LIBS_OUT\u003d/Users/apple/work/52ijkplayer/android/ijkplayer/ijkplayer-x86/build/intermediates/ndkBuild/debug/lib /Users/apple/work/52ijkplayer/android/ijkplayer/ijkplayer-x86/build/intermediates/ndkBuild/debug/obj/local/arm64-v8a/libijksdl.so",
+      "abi": "arm64-v8a",
+      "output": "/Users/apple/work/52ijkplayer/android/ijkplayer/ijkplayer-x86/build/intermediates/ndkBuild/debug/obj/local/arm64-v8a/libijksdl.so",
+      "runtimeFiles": []
+    },
+    "yuv_static-debug-arm64-v8a": {
+      "artifactName": "yuv_static",
+      "buildCommand": "/Users/apple/config/android-ndk-r12b/ndk-build NDK_PROJECT_PATH\u003dnull APP_BUILD_SCRIPT\u003d/Users/apple/work/52ijkplayer/android/ijkplayer/ijkplayer-x86/src/main/jni/Android.mk NDK_APPLICATION_MK\u003d/Users/apple/work/52ijkplayer/android/ijkplayer/ijkplayer-x86/src/main/jni/Application.mk APP_ABI\u003darm64-v8a NDK_ALL_ABIS\u003darm64-v8a NDK_DEBUG\u003d1 APP_PLATFORM\u003dandroid-21 NDK_OUT\u003d/Users/apple/work/52ijkplayer/android/ijkplayer/ijkplayer-x86/build/intermediates/ndkBuild/debug/obj NDK_LIBS_OUT\u003d/Users/apple/work/52ijkplayer/android/ijkplayer/ijkplayer-x86/build/intermediates/ndkBuild/debug/lib /Users/apple/work/52ijkplayer/android/ijkplayer/ijkplayer-x86/build/intermediates/ndkBuild/debug/obj/local/arm64-v8a/libyuv_static.a",
+      "abi": "arm64-v8a",
+      "output": "/Users/apple/work/52ijkplayer/android/ijkplayer/ijkplayer-x86/build/intermediates/ndkBuild/debug/obj/local/arm64-v8a/libyuv_static.a",
+      "runtimeFiles": []
+    },
+    "cpufeatures-debug-arm64-v8a": {
+      "artifactName": "cpufeatures",
+      "buildCommand": "/Users/apple/config/android-ndk-r12b/ndk-build NDK_PROJECT_PATH\u003dnull APP_BUILD_SCRIPT\u003d/Users/apple/work/52ijkplayer/android/ijkplayer/ijkplayer-x86/src/main/jni/Android.mk NDK_APPLICATION_MK\u003d/Users/apple/work/52ijkplayer/android/ijkplayer/ijkplayer-x86/src/main/jni/Application.mk APP_ABI\u003darm64-v8a NDK_ALL_ABIS\u003darm64-v8a NDK_DEBUG\u003d1 APP_PLATFORM\u003dandroid-21 NDK_OUT\u003d/Users/apple/work/52ijkplayer/android/ijkplayer/ijkplayer-x86/build/intermediates/ndkBuild/debug/obj NDK_LIBS_OUT\u003d/Users/apple/work/52ijkplayer/android/ijkplayer/ijkplayer-x86/build/intermediates/ndkBuild/debug/lib /Users/apple/work/52ijkplayer/android/ijkplayer/ijkplayer-x86/build/intermediates/ndkBuild/debug/obj/local/arm64-v8a/libcpufeatures.a",
+      "abi": "arm64-v8a",
+      "output": "/Users/apple/work/52ijkplayer/android/ijkplayer/ijkplayer-x86/build/intermediates/ndkBuild/debug/obj/local/arm64-v8a/libcpufeatures.a",
+      "runtimeFiles": []
+    },
+    "ijkplayer-debug-arm64-v8a": {
+      "artifactName": "ijkplayer",
+      "buildCommand": "/Users/apple/config/android-ndk-r12b/ndk-build NDK_PROJECT_PATH\u003dnull APP_BUILD_SCRIPT\u003d/Users/apple/work/52ijkplayer/android/ijkplayer/ijkplayer-x86/src/main/jni/Android.mk NDK_APPLICATION_MK\u003d/Users/apple/work/52ijkplayer/android/ijkplayer/ijkplayer-x86/src/main/jni/Application.mk APP_ABI\u003darm64-v8a NDK_ALL_ABIS\u003darm64-v8a NDK_DEBUG\u003d1 APP_PLATFORM\u003dandroid-21 NDK_OUT\u003d/Users/apple/work/52ijkplayer/android/ijkplayer/ijkplayer-x86/build/intermediates/ndkBuild/debug/obj NDK_LIBS_OUT\u003d/Users/apple/work/52ijkplayer/android/ijkplayer/ijkplayer-x86/build/intermediates/ndkBuild/debug/lib /Users/apple/work/52ijkplayer/android/ijkplayer/ijkplayer-x86/build/intermediates/ndkBuild/debug/obj/local/arm64-v8a/libijkplayer.so",
+      "abi": "arm64-v8a",
+      "output": "/Users/apple/work/52ijkplayer/android/ijkplayer/ijkplayer-x86/build/intermediates/ndkBuild/debug/obj/local/arm64-v8a/libijkplayer.so",
+      "runtimeFiles": []
+    },
+    "android-ndk-profiler-debug-arm64-v8a": {
+      "artifactName": "android-ndk-profiler",
+      "buildCommand": "/Users/apple/config/android-ndk-r12b/ndk-build NDK_PROJECT_PATH\u003dnull APP_BUILD_SCRIPT\u003d/Users/apple/work/52ijkplayer/android/ijkplayer/ijkplayer-x86/src/main/jni/Android.mk NDK_APPLICATION_MK\u003d/Users/apple/work/52ijkplayer/android/ijkplayer/ijkplayer-x86/src/main/jni/Application.mk APP_ABI\u003darm64-v8a NDK_ALL_ABIS\u003darm64-v8a NDK_DEBUG\u003d1 APP_PLATFORM\u003dandroid-21 NDK_OUT\u003d/Users/apple/work/52ijkplayer/android/ijkplayer/ijkplayer-x86/build/intermediates/ndkBuild/debug/obj NDK_LIBS_OUT\u003d/Users/apple/work/52ijkplayer/android/ijkplayer/ijkplayer-x86/build/intermediates/ndkBuild/debug/lib /Users/apple/work/52ijkplayer/android/ijkplayer/ijkplayer-x86/build/intermediates/ndkBuild/debug/obj/local/arm64-v8a/libandroid-ndk-profiler.a",
+      "abi": "arm64-v8a",
+      "output": "/Users/apple/work/52ijkplayer/android/ijkplayer/ijkplayer-x86/build/intermediates/ndkBuild/debug/obj/local/arm64-v8a/libandroid-ndk-profiler.a",
+      "runtimeFiles": []
+    },
+    "ijksoundtouch-debug-arm64-v8a": {
+      "artifactName": "ijksoundtouch",
+      "buildCommand": "/Users/apple/config/android-ndk-r12b/ndk-build NDK_PROJECT_PATH\u003dnull APP_BUILD_SCRIPT\u003d/Users/apple/work/52ijkplayer/android/ijkplayer/ijkplayer-x86/src/main/jni/Android.mk NDK_APPLICATION_MK\u003d/Users/apple/work/52ijkplayer/android/ijkplayer/ijkplayer-x86/src/main/jni/Application.mk APP_ABI\u003darm64-v8a NDK_ALL_ABIS\u003darm64-v8a NDK_DEBUG\u003d1 APP_PLATFORM\u003dandroid-21 NDK_OUT\u003d/Users/apple/work/52ijkplayer/android/ijkplayer/ijkplayer-x86/build/intermediates/ndkBuild/debug/obj NDK_LIBS_OUT\u003d/Users/apple/work/52ijkplayer/android/ijkplayer/ijkplayer-x86/build/intermediates/ndkBuild/debug/lib /Users/apple/work/52ijkplayer/android/ijkplayer/ijkplayer-x86/build/intermediates/ndkBuild/debug/obj/local/arm64-v8a/libijksoundtouch.a",
+      "abi": "arm64-v8a",
+      "output": "/Users/apple/work/52ijkplayer/android/ijkplayer/ijkplayer-x86/build/intermediates/ndkBuild/debug/obj/local/arm64-v8a/libijksoundtouch.a",
+      "runtimeFiles": []
+    }
+  }
+}
