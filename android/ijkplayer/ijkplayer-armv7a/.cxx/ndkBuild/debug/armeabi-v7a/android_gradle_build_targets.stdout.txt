@@ -1,0 +1,53 @@
+
+[armeabi-v7a] Compile thumb  : ijkplayer <= ff_cmdutils.c
+[armeabi-v7a] Compile thumb  : ijkplayer <= ff_ffplay.c
+[armeabi-v7a] Compile thumb  : ijkplayer <= ff_ffpipeline.c
+[armeabi-v7a] Compile thumb  : ijkplayer <= ff_ffpipenode.c
+[armeabi-v7a] Compile thumb  : ijkplayer <= ijkmeta.c
+[armeabi-v7a] Compile thumb  : ijkplayer <= ijkplayer.c
+[armeabi-v7a] Compile thumb  : ijkplayer <= ffpipeline_ffplay.c
+[armeabi-v7a] Compile thumb  : ijkplayer <= ffpipenode_ffplay_vdec.c
+[armeabi-v7a] Compile thumb  : ijkplayer <= ffmpeg_api_jni.c
+[armeabi-v7a] Compile thumb  : ijkplayer <= ijkplayer_android.c
+[armeabi-v7a] Compile thumb  : ijkplayer <= ijkplayer_jni.c
+[armeabi-v7a] Compile thumb  : ijkplayer <= ffpipeline_android.c
+[armeabi-v7a] Compile thumb  : ijkplayer <= ffpipenode_android_mediacodec_vdec.c
+[armeabi-v7a] Compile thumb  : ijkplayer <= allformats.c
+[armeabi-v7a] Compile thumb  : ijkplayer <= ijklivehook.c
+[armeabi-v7a] Compile thumb  : ijkplayer <= ijkmediadatasource.c
+[armeabi-v7a] Compile thumb  : ijkplayer <= ijkio.c
+[armeabi-v7a] Compile thumb  : ijkplayer <= ijkiomanager.c
+[armeabi-v7a] Compile thumb  : ijkplayer <= ijkiocache.c
+[armeabi-v7a] Compile thumb  : ijkplayer <= ijkioffio.c
+[armeabi-v7a] Compile thumb  : ijkplayer <= ijkioandroidio.c
+[armeabi-v7a] Compile thumb  : ijkplayer <= ijkioprotocol.c
+[armeabi-v7a] Compile thumb  : ijkplayer <= ijkioapplication.c
+[armeabi-v7a] Compile thumb  : ijkplayer <= ijkiourlhook.c
+[armeabi-v7a] Compile thumb  : ijkplayer <= ijkasync.c
+[armeabi-v7a] Compile thumb  : ijkplayer <= ijkurlhook.c
+[armeabi-v7a] Compile thumb  : ijkplayer <= ijklongurl.c
+[armeabi-v7a] Compile thumb  : ijkplayer <= ijksegment.c
+[armeabi-v7a] Compile thumb  : ijkplayer <= ijkdict.c
+[armeabi-v7a] Compile thumb  : ijkplayer <= ijkutils.c
+[armeabi-v7a] Compile thumb  : ijkplayer <= ijkthreadpool.c
+[armeabi-v7a] Compile thumb  : ijkplayer <= ijktree.c
+[armeabi-v7a] Compile thumb  : ijkplayer <= ijkfifo.c
+[armeabi-v7a] Compile++ thumb: ijkplayer <= ijkstl.cpp
+[armeabi-v7a] Compile++ thumb: ijksoundtouch <= AAFilter.cpp
+[armeabi-v7a] Compile++ thumb: ijksoundtouch <= FIFOSampleBuffer.cpp
+[armeabi-v7a] Compile++ thumb: ijksoundtouch <= FIRFilter.cpp
+[armeabi-v7a] Compile++ thumb: ijksoundtouch <= cpu_detect_x86.cpp
+[armeabi-v7a] Compile++ thumb: ijksoundtouch <= sse_optimized.cpp
+[armeabi-v7a] Compile++ thumb: ijksoundtouch <= RateTransposer.cpp
+[armeabi-v7a] Compile++ thumb: ijksoundtouch <= InterpolateCubic.cpp
+[armeabi-v7a] Compile++ thumb: ijksoundtouch <= InterpolateLinear.cpp
+[armeabi-v7a] Compile++ thumb: ijksoundtouch <= InterpolateShannon.cpp
+[armeabi-v7a] Compile++ thumb: ijksoundtouch <= TDStretch.cpp
+[armeabi-v7a] Compile++ thumb: ijksoundtouch <= BPMDetect.cpp
+[armeabi-v7a] Compile++ thumb: ijksoundtouch <= PeakFinder.cpp
+[armeabi-v7a] Compile++ thumb: ijksoundtouch <= SoundTouch.cpp
+[armeabi-v7a] Compile++ thumb: ijksoundtouch <= mmx_optimized.cpp
+[armeabi-v7a] Compile++ thumb: ijksoundtouch <= ijksoundtouch_wrap.cpp
+[armeabi-v7a] StaticLibrary  : libijksoundtouch.a
+[armeabi-v7a] SharedLibrary  : libijkplayer.so
+make: Nothing to be done for `ijksdl'.

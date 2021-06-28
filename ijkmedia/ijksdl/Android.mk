@@ -72,8 +72,12 @@ LOCAL_SRC_FILES += android/ijksdl_vout_android_nativewindow.c
 LOCAL_SRC_FILES += android/ijksdl_vout_android_surface.c
 LOCAL_SRC_FILES += android/ijksdl_vout_overlay_android_mediacodec.c
 
-LOCAL_SHARED_LIBRARIES := ijkffmpeg
-LOCAL_STATIC_LIBRARIES := cpufeatures yuv_static ijkj4a
+# LOCAL_SHARED_LIBRARIES := ijkffmpeg
+# LOCAL_STATIC_LIBRARIES := cpufeatures yuv_static ijkj4a
+# 将ffpmeg 改为静态链接 
+LOCAL_STATIC_LIBRARIES := avformat avcodec swscale swresample avfilter avutil cpufeatures yuv_static
+LOCAL_SHARED_LIBRARIES := ijkj4a
+
 
 LOCAL_MODULE := ijksdl
 include $(BUILD_SHARED_LIBRARY)
