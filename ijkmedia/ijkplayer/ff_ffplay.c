@@ -1276,14 +1276,22 @@ static void step_to_next_frame_l(FFPlayer *ffp)
         stream_toggle_pause_l(ffp, 0);
 }
 
+/**
+ * 根据音频的时钟信号，重新计算了延时，从而达到了根据音频来调整视频的显示时间，从而实现音视频同步的效果
+ * 音频帧数量和视频帧数量不一定对等，另外每个音频帧的显示时间在时间上几乎对等，每个视频帧的显示时间，会根据具体情况有延时显示，
+ * 这个延时就是 compute_target_delay 函数计算出来的。
+ */
 static double compute_target_delay(FFPlayer *ffp, double delay, VideoState *is)
 {
     double sync_threshold, diff = 0;
 
     /* update delay to follow master synchronisation source */
+    //因为音频是采样数据，有固定的采用周期并且依赖于主系统时钟，要调整音频的延时播放较难控制。
+    // 所以实际场合中视频同步音频相比音频同步视频实现起来更容易。
     if (get_master_sync_type(is) != AV_SYNC_VIDEO_MASTER) {
         /* if video is slave, we try to correct big delays by
            duplicating or deleting a frame */
+        //获取当前视频帧播放的时间，与系统主时钟时间相减得到差值
         diff = get_clock(&is->vidclk) - get_master_clock(is);
 
         /* skip or repeat frame. We take into account the
@@ -1291,12 +1299,13 @@ static double compute_target_delay(FFPlayer *ffp, double delay, VideoState *is)
            if it is the best guess */
         sync_threshold = FFMAX(AV_SYNC_THRESHOLD_MIN, FFMIN(AV_SYNC_THRESHOLD_MAX, delay));
         /* -- by bbcallen: replace is->max_frame_duration with AV_NOSYNC_THRESHOLD */
+        //假如当前帧的播放时间，也就是pts，滞后于主时钟
         if (!isnan(diff) && fabs(diff) < AV_NOSYNC_THRESHOLD) {
             if (diff <= -sync_threshold)
                 delay = FFMAX(0, delay + diff);
             else if (diff >= sync_threshold && delay > AV_SYNC_FRAMEDUP_THRESHOLD)
                 delay = delay + diff;
-            else if (diff >= sync_threshold)
+            else if (diff >= sync_threshold)    //假如当前帧的播放时间，也就是pts，超前于主时钟，那就需要加大延时
                 delay = 2 * delay;
         }
     }
@@ -1392,14 +1401,16 @@ retry:
                 is->frame_timer = av_gettime_relative() / 1000000.0; // 设置播放时间
 
             if (is->paused)
-                goto display;
+                goto display;//只有在paused的情况下，才播放图像
 
             /* compute nominal last_duration */
             // 计算相邻两帧之间实际时间间隔(包括同步补偿)
             last_duration = vp_duration(is, lastvp, vp);
+            //既然要音视频同步，肯定要以视频或音频为参考标准，然后控制延时来保证音视频的同步，
+            //这个函数就做这个事情了，下面会有分析，具体是如何做到的。
             delay = compute_target_delay(ffp, last_duration, is);
 
-            time= av_gettime_relative()/1000000.0;
+            time= av_gettime_relative()/1000000.0;//获取当前时间
             //更新当前播放时间
             if (isnan(is->frame_timer) || time < is->frame_timer)
                 is->frame_timer = time;

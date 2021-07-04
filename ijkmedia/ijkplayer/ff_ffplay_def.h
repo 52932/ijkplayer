@@ -273,15 +273,17 @@ typedef struct Decoder {
 } Decoder;
 
 typedef struct VideoState {
+    // Demux解复用线程，读视频文件stream线程，得到AVPacket，并对packet入栈
     SDL_Thread *read_tid;
+    //视频解码线程，读取AVPacket，decode 爬出可以成AVFrame并入队
     SDL_Thread _read_tid;
     AVInputFormat *iformat;
     int abort_request;
     int force_refresh;
-    int paused;
+    int paused;//控制视频暂停或播放标志位
     int last_paused;
     int queue_attachments_req;
-    int seek_req;
+    int seek_req;//进度控制标志
     int seek_flags;
     int64_t seek_pos;
     int64_t seek_rel;
@@ -295,7 +297,7 @@ typedef struct VideoState {
     Clock vidclk;
     Clock extclk;
 
-    FrameQueue pictq;
+    FrameQueue pictq;//解码后的图像帧单独放在pictq队列当中，SDL利用其进行显示。
     FrameQueue subpq;
     FrameQueue sampq;
 
@@ -313,8 +315,8 @@ typedef struct VideoState {
     double audio_diff_avg_coef;
     double audio_diff_threshold;
     int audio_diff_avg_count;
-    AVStream *audio_st;
-    PacketQueue audioq;
+    AVStream *audio_st;//音频流
+    PacketQueue audioq;//音频packet队列
     int audio_hw_buf_size;
     uint8_t *audio_buf;
     uint8_t *audio_buf1;
@@ -390,7 +392,7 @@ typedef struct VideoState {
 
     /* extra fields */
     SDL_mutex  *play_mutex; // only guard state, do not block any long operation
-    SDL_Thread *video_refresh_tid;
+    SDL_Thread *video_refresh_tid;//视频播放刷新线程，定时播放下一帧
     SDL_Thread _video_refresh_tid;
 
     int buffering_on;
